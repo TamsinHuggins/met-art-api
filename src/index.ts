@@ -26,7 +26,7 @@ function createDeptListItem(deptId: number, deptName: string): HTMLLIElement {
   console.log(deptId, deptName, typeof deptId, typeof deptName);
   const li = document.createElement("li");
   li.dataset.deptId = deptId.toString();
-  const linkURL = `departmentArtworks.html?departmentId=${deptId}`;
+  const linkURL = `departmentArtworks.html?departmentId=${deptId}&departmentName=${encodeURIComponent(deptName)}`;
   //const linkURL: string = `https://collectionapi.metmuseum.org/public/collection/v1/objects?departmentIds=${deptId}`;
   const anchor: HTMLAnchorElement = document.createElement("a");
   anchor.href = linkURL;
