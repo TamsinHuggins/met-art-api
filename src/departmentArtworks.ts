@@ -56,7 +56,7 @@ async function fetchOneExpandedArtwork() {
   const response = await fetch(
     `https://collectionapi.metmuseum.org/public/collection/v1/objects/${firstId}`,
   );
-  const expandedArtPiece = await response.json(); // <--- here!
+  const expandedArtPiece = await response.json();
   return expandedArtPiece;
 }
 
