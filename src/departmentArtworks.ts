@@ -50,9 +50,9 @@ async function fetchArtworkIds(): Promise<Number[]> {
   return objectIDs;
 }
 
-async function fetchOneExpandedArtwork() {
+async function fetchExpandedArtworkByIndex(chosenIndex: number) {
   const artworkIds = await fetchArtworkIds();
-  const firstId = artworkIds[0];
+  const firstId = artworkIds[chosenIndex];
   const response = await fetch(
     `https://collectionapi.metmuseum.org/public/collection/v1/objects/${firstId}`,
   );
@@ -60,9 +60,12 @@ async function fetchOneExpandedArtwork() {
   return expandedArtPiece;
 }
 
-async function defineOneArtwork() {
-  const expanded = await fetchOneExpandedArtwork();
-  return {
+async function fetchOneArtwork(): Promise<ArtPiece> {
+  // loop through indexes in the list of relevant artworks until one with a valid image is found
+
+  const expanded = await fetchExpandedArtworkByIndex(3);
+
+  const artPiece: ArtPiece = {
     objectID: expanded.objectID,
     title: expanded.title,
     artistDisplayName: expanded.artistDisplayName,
@@ -70,8 +73,16 @@ async function defineOneArtwork() {
     department: expanded.department,
     objectName: expanded.objectName,
   };
+
+  const pictureFrame = document.getElementById("frame");
+  const imgEl = document.createElement("img");
+  imgEl.src = artPiece.primaryImage;
+  imgEl.alt = artPiece.title;
+  pictureFrame?.appendChild(imgEl);
+
+  return artPiece;
 }
 
 // https://collectionapi.metmuseum.org/public/collection/v1/objects?departmentIds=3
 
-defineOneArtwork().then((artwork) => console.log(artwork));
+fetchOneArtwork().then((artwork) => console.log(artwork));
