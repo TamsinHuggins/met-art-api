@@ -10,9 +10,14 @@ async function fetchDepartments() {
     return data.departments;
 }
 function createDeptListItem(deptId, deptName) {
+    console.log(deptId, deptName, typeof deptId, typeof deptName);
     const li = document.createElement("li");
     li.dataset.deptId = deptId.toString();
-    li.innerText = deptName;
+    const linkURL = `https://collectionapi.metmuseum.org/public/collection/v1/objects?departmentIds=${deptId}`;
+    const anchor = document.createElement("a");
+    anchor.href = linkURL;
+    anchor.innerText = deptName;
+    li.appendChild(anchor);
     return li;
 }
 fetchDepartments()

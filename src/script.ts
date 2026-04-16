@@ -1,7 +1,6 @@
 console.log("connected");
 
 interface Department {
-  // fill in the property names and types based on your example object
   departmentId: number;
   displayName: string;
 }
@@ -24,10 +23,14 @@ async function fetchDepartments(): Promise<Department[]> {
 }
 
 function createDeptListItem(deptId: number, deptName: string): HTMLLIElement {
+  console.log(deptId, deptName, typeof deptId, typeof deptName);
   const li = document.createElement("li");
   li.dataset.deptId = deptId.toString();
-  li.innerText = deptName;
-
+  const linkURL: string = `https://collectionapi.metmuseum.org/public/collection/v1/objects?departmentIds=${deptId}`;
+  const anchor: HTMLAnchorElement = document.createElement("a");
+  anchor.href = linkURL;
+  anchor.innerText = deptName;
+  li.appendChild(anchor);
   return li;
 }
 
