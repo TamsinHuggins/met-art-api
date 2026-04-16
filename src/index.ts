@@ -1,13 +1,6 @@
-console.log("connected");
+console.log("conneced");
 
-interface Department {
-  departmentId: number;
-  displayName: string;
-}
-
-interface DepartmentsResponse {
-  departments: Department[];
-}
+import type { Department, DepartmentsResponse } from "./departmentArtworks";
 
 const DEPARTMENTS_URL =
   "https://collectionapi.metmuseum.org/public/collection/v1/departments";
@@ -19,6 +12,7 @@ async function fetchDepartments(): Promise<Department[]> {
   const response: Response = await fetch(DEPARTMENTS_URL);
   const data: DepartmentsResponse =
     (await response.json()) as DepartmentsResponse;
+  console.log(data.departments);
   return data.departments;
 }
 
@@ -27,7 +21,7 @@ function createDeptListItem(deptId: number, deptName: string): HTMLLIElement {
   const li = document.createElement("li");
   li.dataset.deptId = deptId.toString();
   const linkURL = `departmentArtworks.html?departmentId=${deptId}&departmentName=${encodeURIComponent(deptName)}`;
-  //const linkURL: string = `https://collectionapi.metmuseum.org/public/collection/v1/objects?departmentIds=${deptId}`;
+
   const anchor: HTMLAnchorElement = document.createElement("a");
   anchor.href = linkURL;
   anchor.innerText = deptName;
